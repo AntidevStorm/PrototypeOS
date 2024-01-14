@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TestOS</title>
+    <style>
+        body {
+            background: url('https://unsplash.com/photos/4dpAqfTbvKA/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8c3BhY2UlMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTcwNTI0MTY0NXww&force=true') no-repeat center center fixed;
+            background-size: cover;
+            color: #FFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #loading-screen, #installation-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #000;
+            color: #FFF;
+            font-size: 24px;
+            z-index: 2;
+        }
+        #installation-screen {
+            background-color: #000;
+        }
+        #installation-content {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        progress {
+            width: 100%;
+            margin-top: 10px;
+        }
+        #desktop {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            bottom: 40px;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent black */
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .icon-container {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .icon {
+            width: 80px;
+            height: 80px;
+            background-color: #333;
+            color: #FFF;
+            border: 1px solid #444;
+            text-align: center;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .icon:hover {
+            background-color: #444;
+        }
+        .icon-text {
+            font-size: 14px;
+            text-align: center;
+        }
+        #taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 5px;
+            text-align: center;
+            z-index: 1;
+        }
+        #start-menu {
+            display: none;
+            position: absolute;
+            top: 45px;
+            left: 5px;
+            width: 200px;
+            background-color: #333;
+            border: 1px solid #444;
+            padding: 10px;
+            color: #FFF;
+            z-index: 2;
+        }
+        #notepad-container, #bios-container {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 220px;
+            right: 10px;
+            bottom: 40px;
+            background-color: #444; /* Grey-Blue color */
+            border: 1px solid #444;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace; /* Pixelated font */
+            font-size: 12px;
+            color: #FFF;
+        }
+        #notepad-content {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        .bios-option {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            padding: 5px;
+        }
+        .bios-option.exit {
+            background-color: #FF0000;
+        }
+        .bios-option:hover {
+            background-color: #0000FF;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <h1>Loading TestOS...</h1>
+        <button onclick="skipLoading()">Skip</button>
+    </div>
+
+    <!-- Installation Screen -->
+    <div id="installation-screen">
+        <h1>Installing TestOS...</h1>
+        <div id="installation-content">
+            <p>Copying system files... 50%</p>
+            <p>Configuring settings... 75%</p>
+            <p>Installing drivers... 90%</p>
+            <p>Completing installation... 100%</p>
+        </div>
+        <progress value="100" max="100"></progress>
+        <button onclick="skipInstallation()">Skip</button>
+    </div>
+
+    <!-- Desktop -->
+    <div id="desktop">
+        <!-- Windows-like icons -->
+        <div class="icon-container" onclick="openApp('Calculator')">
+            <div class="icon">C</div>
+            <h2 class="icon-text">Calculator</h2>
+        </div>
+        <div class="icon-container" onclick="openNotepad()">
+            <div class="icon">N</div>
+            <h2 class="icon-text">Notepad</h2>
+        </div>
+        <div class="icon-container" onclick="openApp('Browser')">
+            <div class="icon">B</div>
+            <h2 class="icon-text">Web Browser</h2>
+        </div>
+        <div class="icon-container" onclick="openApp('FileManager')">
+            <div class="icon">F</div>
+            <h2 class="icon-text">File Manager</h2>
+        </div>
+        <div class="icon-container" onclick="openBios()">
+            <div class="icon">BIOS</div>
+            <h2 class="icon-text">BIOS</h2>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div id="taskbar">
+        <span onclick="toggleStartMenu()">Start</span>
+        <span onclick="openApp('Calculator')">Calculator</span>
+        <span onclick="openNotepad()">Notepad</span>
+        <span onclick="openApp('Browser')">Browser</span>
+        <span onclick="openApp('FileManager')">FileManager</span>
+        <span onclick="closeAllApps()">Close All Apps</span>
+    </div>
+
+    <!-- Start Menu -->
+    <div id="start-menu">
+        <ul>
+            <li onclick="openApp('Calculator')">Calculator</li>
+            <li onclick="openNotepad()">Notepad</li>
+            <li onclick="openApp('Browser')">Web Browser</li>
+            <li onclick="openApp('FileManager')">File Manager</li>
+        </ul>
+    </div>
+
+    <!-- Notepad Container -->
+    <div id="notepad-container">
+        <textarea id="notepad-content"></textarea>
+        <button onclick="saveNotepad()">Save</button>
+    </div>
+
+    <!-- BIOS Container -->
+    <div id="bios-container">
+        <h2>TestOS BIOS</h2>
+        <ul>
+            <li class="bios-option" onclick="openSystemInfo()">System Information</li>
+            <li class="bios-option" onclick="openDateTime()">Date and Time</li>
+            <li class="bios-option" onclick="openBootOrder()">Boot Order</li>
+            <li class="bios-option" onclick="openSecuritySettings()">Security Settings</li>
+            <li class="bios-option" onclick="openAdvancedSettings()">Advanced Settings</li>
+            <li class="bios-option" onclick="openIntegratedPeripherals()">Integrated Peripherals</li>
+            <li class="bios-option" onclick="openUefiLegacyBoot()">UEFI/Legacy Boot</li>
+            <li class="bios-option" onclick="openHardwareMonitoring()">Hardware Monitoring</li>
+            <li class="bios-option exit" onclick="exitBios()">Exit</li>
+        </ul>
+    </div>
+
+
+    <script>
+        // Function to skip the loading screen
+        function skipLoading() {
+            document.getElementById("loading-screen").style.display = "none";
+            showDesktop(); // Function to reveal the desktop
+        }
+
+        // Function to skip the installation screen
+        function skipInstallation() {
+            document.getElementById("installation-screen").style.display = "none";
+            showDesktop(); // Function to reveal the desktop
+        }
+
+        // Function to reveal the desktop
+        function showDesktop() {
+            document.getElementById("desktop").style.display = "flex";
+        }
+
+        // Function to open apps
+        function openApp(appName) {
+            switch (appName) {
+                case 'Calculator':
+                    alert("Calculator app opened.");
+                    break;
+                case 'Browser':
+                    alert("Web Browser app opened.");
+                    break;
+                case 'FileManager':
+                    alert("File Manager app opened.");
+                    break;
+            }
+        }
+
+        // Function to toggle the start menu
+        function toggleStartMenu() {
+            var startMenu = document.getElementById("start-menu");
+            if (startMenu.style.display === "block") {
+                startMenu.style.display = "none";
+            } else {
+                startMenu.style.display = "block";
+            }
+        }
+
+        // Function to open the BIOS
+        function openBios() {
+            // Hide other containers (Notepad)
+            document.getElementById("notepad-container").style.display = "none";
+            // Show the BIOS container
+            document.getElementById("bios-container").style.display = "block";
+        }
+
+        // Function to exit the BIOS
+        function exitBios() {
+            // Hide the BIOS container
+            document.getElementById("bios-container").style.display = "none";
+        }
+
+        // Function to close all open apps
+        function closeAllApps() {
+            // Hide Notepad container
+            document.getElementById("notepad-container").style.display = "none";
+            // Hide BIOS container
+            document.getElementById("bios-container").style.display = "none";
+        }
+
+        // Function to save content in Notepad
+        function saveNotepad() {
+            var notepadContent = document.getElementById("notepad-content").value;
+            alert("Notepad content saved:\n\n" + notepadContent);
+        }
+
+        // Additional BIOS functions or app-specific functionality
+
+        // Simulate loading and installation (for demonstration purposes)
+        setTimeout(function() {
+            document.getElementById("loading-screen").style.display = "none";
+            document.getElementById("installation-screen").style.display = "block";
+            // Simulate installation progress (update the progress bar)
+            var progress = 0;
+            var progressBar = document.querySelector("progress");
+            var interval = setInterval(function() {
+                progress += 10;
+                progressBar.value = progress;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    showDesktop();
+                }
+            }, 500); // Update every half second
+        }, 10000); // Simulate loading for 10 seconds
+    </script>
+</body>
+</html>
