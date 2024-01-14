@@ -10,6 +10,7 @@ Great question! PrototypeOS is a `web-based OS Prototype (duh) that emulates an 
 # Update
 _As of this moment_, the experimentals are more advanced than the original, lol. `I know this will fall apart in some way, lmao.`
 Gave it a name, VoxOS
+Original version is now called "Legacy version". Use it if you want to see the old files or just if the new ones don't work!
 # Bugs
 
 ## 1.
