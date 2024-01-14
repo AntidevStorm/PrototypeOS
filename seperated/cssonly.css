@@ -1,0 +1,118 @@
+        body {
+            background-color: #888;
+            color: #FFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #loading-screen, #installation-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #000;
+            color: #FFF;
+            font-size: 24px;
+            z-index: 2;
+        }
+        #installation-screen {
+            display: none;
+        }
+        progress {
+            width: 100%;
+            margin-top: 10px;
+        }
+        #desktop {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            bottom: 40px;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .icon-container {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .icon {
+            width: 80px;
+            height: 80px;
+            background-color: #333;
+            color: #FFF;
+            border: 1px solid #444;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .icon:hover {
+            background-color: #444;
+        }
+        .icon-text {
+            font-size: 14px;
+            text-align: center;
+        }
+        #taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 5px;
+            text-align: center;
+            z-index: 1;
+        }
+        #start-menu {
+            display: none;
+            position: absolute;
+            top: 45px;
+            left: 5px;
+            width: 200px;
+            background-color: #333;
+            border: 1px solid #444;
+            padding: 10px;
+            color: #FFF;
+            z-index: 2;
+        }
+        #notepad-container, #bios-container {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 220px;
+            right: 10px;
+            bottom: 40px;
+            background-color: #FFF;
+            border: 1px solid #444;
+            padding: 10px;
+        }
+        #notepad-content {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        .bios-option {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            padding: 5px;
+        }
+        .bios-option.exit {
+            background-color: #FF0000;
+        }
+        .bios-option:hover {
+            background-color: #0000FF;
+        }
