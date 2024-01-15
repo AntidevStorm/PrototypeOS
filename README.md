@@ -19,7 +19,7 @@ Original version is now called "Legacy version". Use it if you want to see the o
 
 # Complaints
 
-## 1. Kind of blank, no icons, no theme....
+## 1. Kind of blank, no icons, no theme.........FIXED!
 
 > `I know!` Everyone should know that `design never goes first in these large projects.` I always make the `core structures, then the additions, then the design. I am working on a new CSS prototype so I will add a folder and a copy of the main code in there as the 'Experimental' version.` You may download it and tell me your thoughts!
 
